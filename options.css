@@ -1,0 +1,494 @@
+:root {
+  --bg: #ffffff;
+  --fg: #1f2330;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --hover: #f3f4f6;
+  --accent: #1a73e8;
+  --accent-tint: #e8f0fe;
+  --toolbar: #f1f3f4;
+  --chip-hover: #e2e5e9;
+  --on-accent: #ffffff;
+  --error: #d93025;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1b1e27;
+    --fg: #e8eaf0;
+    --muted: #9aa0ad;
+    --border: #333846;
+    --hover: #262a35;
+    --accent: #5b9cf8;
+    --accent-tint: #1f2c44;
+    --toolbar: #23262f;
+    --chip-hover: #343846;
+    --on-accent: #10131a;
+    --error: #f28b82;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, "Segoe UI", "Hiragino Sans", "Yu Gothic UI",
+    sans-serif;
+  font-size: 14px;
+  color: var(--fg);
+  background: var(--bg);
+}
+
+/* バーを再現する監視の欄はブラウザの横幅いっぱいに広げ、ほかの欄は読みやすい幅にとどめる(左端はそろえる) */
+main {
+  padding: 32px 24px;
+}
+
+main > section {
+  max-width: 720px;
+}
+
+main > section.wide {
+  max-width: none;
+}
+
+main > section + section {
+  margin-top: 40px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+h2 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.note {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.hidden {
+  display: none;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 見出しの行。右端に Undo / Redo */
+.watch-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.watch-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.watch-actions > button {
+  height: 34px;
+}
+
+/* ---- ボタン ---- */
+
+.button {
+  padding: 6px 14px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--accent);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.button:hover {
+  border-color: var(--accent);
+}
+
+.button.primary {
+  color: var(--on-accent);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.button:disabled {
+  cursor: default;
+  opacity: 0.4;
+}
+
+/* 枠付きのアイコンボタン。ホバーで塗りつぶす(simple_memo と同じ) */
+.icon-btn {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 26px;
+  height: 26px;
+  padding: 0;
+  font: inherit;
+  font-size: 12px;
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.icon-btn svg {
+  display: block;
+  flex: 0 0 auto;
+}
+
+.icon-btn.danger {
+  color: var(--error);
+}
+
+.icon-btn.danger:hover {
+  color: var(--on-accent);
+  background: var(--error);
+  border-color: var(--error);
+}
+
+.icon-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.picker {
+  margin-top: 16px;
+}
+
+/* ---- 共通 ---- */
+
+.title {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.url {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.favicon,
+.node-icon {
+  flex: 0 0 auto;
+}
+
+.node-icon {
+  color: var(--muted);
+}
+
+/* ---- ブックマークバー(ブラウザのバーの再現) ---- */
+
+.bmbar {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 4px 6px;
+  background: var(--toolbar);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+/* 1行に並べ、入りきらない分は options.js が隠して「»」にしまう */
+.bmbar-items {
+  display: flex;
+  flex: 1 1 auto;
+  gap: 2px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.bmbar-items > .bm-chip {
+  flex: 0 0 auto;
+}
+
+.bm-chip[hidden] {
+  display: none;
+}
+
+.bmbar-more {
+  flex: 0 0 auto;
+  justify-content: center;
+  min-width: 28px;
+  padding: 0 6px;
+  font-size: 15px;
+}
+
+/* その他のブックマーク等は右端(ブラウザと同じ) */
+.bmbar-rest {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 2px;
+  padding-left: 6px;
+  border-left: 1px solid var(--border);
+}
+
+.bm-chip,
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font: inherit;
+  font-size: 13px;
+  color: inherit;
+  text-align: left;
+  white-space: nowrap;
+  background: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.bm-chip {
+  max-width: 180px;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 14px;
+}
+
+.bm-chip:hover,
+.bm-chip.open,
+.menu-item:hover,
+.menu-item.open {
+  background: var(--chip-hover);
+}
+
+.bm-chip:focus-visible,
+.menu-item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.bm-chip.selected,
+.menu-item.selected {
+  background: var(--accent-tint);
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+/* 中に選択中のブックマークがあるフォルダ */
+.bm-chip.has-selected,
+.menu-item.has-selected {
+  border-color: var(--accent);
+}
+
+.bm-chip.has-selected .node-icon,
+.menu-item.has-selected .node-icon {
+  color: var(--accent);
+}
+
+/* ドロップダウンのメニュー。サブメニューも同じ見た目 */
+.bm-menu {
+  position: fixed;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  min-width: 220px;
+  max-width: 340px;
+  max-height: calc(100vh - 16px);
+  padding: 6px;
+  overflow-y: auto;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+
+.menu-item {
+  width: 100%;
+  min-height: 28px;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.menu-item + .menu-item {
+  margin-top: 1px;
+}
+
+.menu-item .title {
+  flex: 1 1 auto;
+}
+
+.submenu-arrow {
+  flex: 0 0 auto;
+  margin-left: 8px;
+  color: var(--muted);
+}
+
+.menu-sep {
+  width: 100%;
+  margin: 4px 0;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+.menu-item.select-all {
+  color: var(--accent);
+}
+
+/* ---- 選択中のブックマーク ---- */
+
+.selected-section {
+  margin-top: 28px;
+}
+
+.selected-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border);
+}
+
+.sel-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sel-row .title {
+  flex: 0 1 auto;
+  max-width: 40%;
+}
+
+.sel-row .url {
+  flex: 1 1 0;
+}
+
+/* 書き換える条件。[ドメイン] [パス] をつなげた切り替えで、選んでいる方を塗る。高さは × のボタン(26px)とそろえる */
+.mode-switch {
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+.mode-btn {
+  height: 26px;
+  padding: 0 10px;
+  font: inherit;
+  font-size: 12px;
+  color: var(--muted);
+  background: none;
+  border: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.mode-btn:first-child {
+  border-radius: 4px 0 0 4px;
+}
+
+.mode-btn:last-child {
+  margin-left: -1px;
+  border-radius: 0 4px 4px 0;
+}
+
+.mode-btn:hover {
+  color: var(--accent);
+}
+
+.mode-btn.active {
+  position: relative; /* 重ねた境目の線を選んだ側の色で見せる */
+  color: var(--accent);
+  background: var(--accent-tint);
+  border-color: var(--accent);
+}
+
+.mode-btn:focus-visible {
+  position: relative;
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* 保存に失敗したとき(古い service worker のまま等)の知らせ */
+.save-error {
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  color: var(--error);
+  border: 1px solid var(--error);
+  border-radius: 6px;
+}
+
+.save-error[hidden] {
+  display: none;
+}
+
+/* Undo / Redo。押せないときは薄く */
+.icon-btn.history {
+  min-width: 34px;
+  color: var(--muted);
+  border-color: var(--border);
+  border-radius: 6px;
+}
+
+.icon-btn.history:hover:not(:disabled) {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.icon-btn.history:disabled {
+  cursor: default;
+  opacity: 0.4;
+}
+
+.empty {
+  padding: 12px 4px;
+  color: var(--muted);
+}
+
+/* ---- 更新履歴 ---- */
+
+.history li {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.entry-head {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.entry-head time {
+  color: var(--muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.entry-head .title {
+  flex: 1;
+}
+
+.history .url {
+  display: block;
+}
+
+.url.from {
+  text-decoration: line-through;
+}
+
+.done {
+  color: var(--muted);
+  font-size: 12px;
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bookmark URL Follower の設定</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <main>
+      <section class="wide">
+        <div class="watch-head">
+          <h1>Bookmark URL Follower</h1>
+          <div class="watch-actions">
+            <button type="button" id="undo" class="icon-btn history" title="元に戻す (⌘Z / Ctrl+Z)" aria-label="元に戻す">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"/></svg>
+            </button>
+            <button type="button" id="redo" class="icon-btn history" title="やり直す (⇧⌘Z / Ctrl+Y)" aria-label="やり直す">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5A5.5 5.5 0 0 0 9.5 20H13"/></svg>
+            </button>
+          </div>
+        </div>
+        <p class="note">
+          監視するブックマークを押して選びます(もう一度押すと外します)。選んだブックマークを開いてリダイレクトされたら、
+          ブックマークの URL を転送先に書き換えます。
+        </p>
+
+        <p id="saveError" class="save-error" hidden>
+          保存できませんでした。chrome://extensions でこの拡張を再読み込み(↻)してから、この画面を開き直してください。
+        </p>
+
+        <div id="picker" class="picker"></div>
+
+        <section class="selected-section">
+          <h2 id="selectedHeading"></h2>
+          <p class="note">
+            右のボタンで書き換える条件を選びます。<b>ドメイン</b>: ドメインが変わったときだけ(同じサイト内のログイン画面などへの転送では書き換えない)。
+            <b>パス</b>: パスや # 以降を含め、URL が少しでも変わったら(ページの JavaScript による書き換えも対象)。
+          </p>
+          <ul id="selectedList" class="selected-list"></ul>
+          <p id="selectedEmpty" class="note hidden">まだ何も監視していません</p>
+        </section>
+
+        <div id="menus"></div>
+      </section>
+
+      <section>
+        <h2>更新履歴</h2>
+        <p class="note">ブックマークごとに新しいものから 5 件まで残します。</p>
+        <ul id="history" class="history"></ul>
+      </section>
+    </main>
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

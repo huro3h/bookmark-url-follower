@@ -1,0 +1,13 @@
+{
+  "name": "bookmark-url-follower",
+  "version": "1.0.0",
+  "private": true,
+  "description": "監視中のブックマークを開いてリダイレクトされたら、ブックマークの URL を転送先に書き換える Chrome 拡張",
+  "scripts": {
+    "test": "node test/e2e.js",
+    "demo": "node test/demo-server.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.48.0"
+  }
+}
