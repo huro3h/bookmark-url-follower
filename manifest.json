@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Bookmark URL Follower",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "監視中のブックマークを開いてリダイレクトされたら、ブックマークの URL を転送先に書き換える",
   "permissions": [
     "bookmarks",
